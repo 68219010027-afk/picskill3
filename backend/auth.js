@@ -6,7 +6,10 @@ if (!secret || secret.length < 32)  throw Error('ตั้ง JWT_SECRET ใน 
 const auth = route(async (req, res, next) => {
     let payload;
     try {
-        payload = jwt.verify((req.headers.authorization || '').replace('Bearer', ''), secret);
+        const header = req.headers.authorization || '';
+        const [scheme, token] = header.trim().split(/\s+/);
+        check(scheme === 'Bearer' && token, 'กรุณาเข้าสู่ระบบ', 401);
+        payload = jwt.verify(token, secret);
     } catch {
         check(false, 'กรุณาเข้าสู่ระบบ', 401);
     }

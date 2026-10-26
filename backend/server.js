@@ -2,7 +2,7 @@
 const express = require('express');
 const { query } = require('./db');
 const { ok, route } = require('./helpers');
-// const { auth } = require('./auth'); // ขั้น 2
+ const { auth } = require('./auth'); // ขั้น 2
 const app = express();
 app.use(express.json());
 
@@ -14,8 +14,14 @@ app.get(
         ok(res, { ready: true });
     }),
 );
-// app.use('/api', require('./routes/users')); //ขั้น 2
-// app.use('/api', auth); // ขั้น 2
+ app.use('/api', require('./routes/users')); //ขั้น 2
+ app.use((req, res) => {
+    res.status(404).json({
+        status: 'error',
+        message: 'ไม่พบ API',
+        data: null,
+    });
+});
 
 // ไม่พบ API → 404
 app.use((error, req, res, next) => {

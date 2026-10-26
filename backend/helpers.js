@@ -9,7 +9,7 @@ function check(condition, message, status = 400) {
 }
 function text(value, max = 100, required = true) {
     const result = String(value ?? '').trim();
-    check((!requrired || result.length > 0) && result.length <= max, 'ข้อมูลว่างหรือยาวเกินกำหนด');
+    check((!required || result.length > 0) && result.length <= max, 'ข้อมูลว่างหรือยาวเกินกำหนด');
     return result;
 }
 function ok(res, data = null, message = 'สำเร็จ') {
